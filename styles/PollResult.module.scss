@@ -1,0 +1,33 @@
+@import './Base.module.scss';
+
+.question {
+  color: $primary-dark;
+}
+
+.poll-result-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 20%;
+}
+
+.fa-refresh {
+  font-size: 32px;
+}
+
+.poll-url {
+  display: flex;
+  justify-content: space-evenly;
+  margin: 40px;
+}
+
+.poll-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.poll-chart {
+  height: 65% !important;
+  font-size: 18px !important;
+}

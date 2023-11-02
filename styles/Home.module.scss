@@ -1,0 +1,79 @@
+@import './Base.module.scss';
+
+.main-table {
+  width: 100%;
+  text-align: center;
+  margin-top: 40px;
+}
+
+.main-table,
+.th,
+.td {
+  border: 1px solid $primary-color;
+  border-collapse: collapse;
+  padding: 7px;
+  table-layout: fixed;
+  word-wrap: break-word;
+}
+
+.th {
+  background-color: $accent-color;
+  color: $primary-dark;
+}
+
+.pager {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+  align-items: center;
+}
+
+.pager-pages {
+  display: flex;
+  width: auto;
+  margin: 0 20px;
+  overflow-y: auto;
+  max-width: 90%;
+}
+
+.pager-pages > * {
+  margin: 0 5px;
+}
+
+.td-account-id {
+  font-size: 14px;
+  color: $primary-color;
+  text-decoration: underline;
+  line-height: 20px;
+}
+
+.fa-external-link {
+  font-size: 13px;
+  margin-left: 4px;
+}
+
+.copied-text {
+  margin-left: 80%;
+  font-size: 10px;
+  color: $sidebar-accent-text-color;
+  text-decoration: none;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-evenly;
+  padding: 0 16px;
+}
+
+.poll-content {
+  display: flex;
+  flex-direction: column;
+  height: -webkit-fill-available;
+  justify-content: space-between;
+}
+
+.page-number {
+  height: 28px;
+  font-size: 14px;
+  padding: 6px;
+}

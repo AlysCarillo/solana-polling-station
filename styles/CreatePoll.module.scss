@@ -1,0 +1,60 @@
+@import './Base.module.scss';
+
+.poll-form {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
+
+.poll-button {
+  width: 160px;
+}
+
+.options-label {
+  font-size: 26px;
+  margin-top: 60px;
+  text-decoration: underline;
+}
+
+.options {
+  overflow-y: auto;
+  height: 350px;
+  border: 2px solid $outline-color;
+  border-radius: 10px;
+  padding: 30px 20px 0;
+}
+
+.add-option-button {
+  width: 130px;
+  font-size: 16px !important;
+  padding: 6px !important;
+  font-weight: bold;
+  border: 2px solid $outline-color !important;
+  border-bottom: none !important;
+  border-radius: 0 !important;
+  margin: 48px auto 0;
+}
+
+.add-option-button > svg {
+  font-size: 16px !important;
+}
+
+.options-table,
+.options-table-input {
+  width: 100%;
+}
+
+.options-table-input {
+  font-size: 16px !important;
+  margin-bottom: 10px;
+}
+
+.create-button {
+  display: flex;
+  justify-content: center;
+  margin-top: 25px;
+}
+
+.fa-star {
+  color: $primary-color;
+}

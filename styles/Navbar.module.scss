@@ -1,0 +1,55 @@
+@import './Base.module.scss';
+
+.navbar {
+  border-bottom: 1px solid $outline-color;
+  // box-shadow: 0px 0 1px 1px $primary-color;
+  height: $navbar-height;
+}
+
+.navbar > .items {
+  height: inherit;
+  display: flex;
+  // justify-content: center;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.fa-item-add {
+  margin-left: 20px;
+  font-size: 30px;
+  width: 60px;
+}
+
+.fa-item-home {
+  margin-right: 20px;
+}
+
+.wallet-button {
+  background-color: $primary-color !important;
+  height: 42px !important;
+}
+
+.wallet-button:not([disabled]):focus-visible {
+  outline-color: $primary-color !important;
+}
+
+.wallet-button:not([disabled]):hover {
+  background-color: $primary-dark !important;
+}
+
+.items-center {
+  display: flex;
+  width: 100%;
+  justify-content: space-evenly;
+}
+
+.items-right-icon {
+  font-size: 28px;
+  color: $primary-color;
+}
+
+.fa-items-right > .fa-item {
+  margin-bottom: 0;
+  margin-right: 20px;
+  font-size: 28px;
+}
