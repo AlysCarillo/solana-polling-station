@@ -1,17 +1,12 @@
-# BlockPoll Web Application
+# Solana Poll Web Application
 
-BlockPoll is a blockchain-based polling application where users can create polls, cast votes on polls, view poll results and share polls. It is built on **Solana Blockchain**.
+Solana blockchain-based polling application where users can create polls, cast votes on polls, view poll results and share polls. 
 
 This is a pure web3 application - meaning there is no intermediate database involved. All of the poll data is stored on blockchain.
 
-Application URL: [https://blockpoll.io](https://blockpoll.io)
-
 ## Solana on-chain program (smart contract)
 
-The on-chain program source code is available in [`program-rust/`](https://github.com/RijulGulati/blockpoll/tree/main/program-rust) directory.
-
 - The program is deployed on Solana `devnet` cluster.
-- Program Address: [GnS5xMqf5NaY7HgbwFneyLNktT8NNNKi4rA2JEmnYdzi](https://explorer.solana.com/address/GnS5xMqf5NaY7HgbwFneyLNktT8NNNKi4rA2JEmnYdzi?cluster=devnet)
 
 ## Wallet integration
 
@@ -50,7 +45,6 @@ BlockPoll allows users to connect with multiple wallets - Eg: Solflare, Sollet, 
 
     Eg: `NEXT_PUBLIC_PROGRAM_ID=EoDZ9sR4bW1AE1Qme3UA1Yn1n6SWSDUzeawyYeBzkxbY`
 
-    That's it!
 
 - ## Rust program
 
@@ -73,19 +67,3 @@ BlockPoll allows users to connect with multiple wallets - Eg: Solflare, Sollet, 
     ```sh
     $ yarn program:test
     ```
-
-## Important
-
-Please **DO NOT** use `GnS5xMqf5NaY7HgbwFneyLNktT8NNNKi4rA2JEmnYdzi` program address for local development. You may use the following addresses (or deploy your own) when developing locally:
-
-- `EoDZ9sR4bW1AE1Qme3UA1Yn1n6SWSDUzeawyYeBzkxbY`
-
----
-
-## Contributions
-
-All kinds of contributions are welcome. Feel free to create an issue or raise a pull request
-
-# License
-
-[MIT](https://github.com/BlockPoll/web/blob/main/LICENSE)
