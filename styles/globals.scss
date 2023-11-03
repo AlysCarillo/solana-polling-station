@@ -16,9 +16,13 @@ a {
 
 a:hover {
   text-decoration: underline;
-  color: $primary-color;
+  color: $accent-color;
 }
 
 * {
   box-sizing: border-box;
+}
+
+body {
+  background-color: rgb(20, 20, 20);
 }
