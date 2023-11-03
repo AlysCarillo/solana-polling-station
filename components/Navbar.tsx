@@ -1,13 +1,11 @@
-import {
-  WalletDisconnectButton,
-  WalletMultiButton,
-} from '@solana/wallet-adapter-react-ui';
 import { NextPage } from 'next';
 import Button from './Button';
 
 import style from '../styles/Navbar.module.scss';
 import baseStyle from '../styles/Base.module.scss';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
+import solanaLogo from '../public/assets/images/solana.svg';
 
 require('@solana/wallet-adapter-react-ui/styles.css');
 
@@ -26,6 +24,16 @@ const Navbar: NextPage = () => {
             router.push('/');
           }}
         />
+        <div className={style['logo-container']}>
+          <Image 
+            className={style['logo']}
+            src={solanaLogo}
+            alt='Solana Logo'
+            width={40}
+            height={40}
+          />
+          <h4><b>SOLANA POLLING STATION</b></h4>
+        </div>
           <Button
             design={'primary'}
             className={style['fa-item-add']}
