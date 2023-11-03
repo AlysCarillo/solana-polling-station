@@ -136,7 +136,7 @@ const Sidebar: NextPage<DefaultProps> = (props) => {
         <>
           <span className={style['items-center']}>
             {(connected ? (
-              <WalletDisconnectButton className={style['wallet-button']} />
+              <WalletDisconnectButton className={style['wallet-button-disconnect']} />
             ) : (
               <WalletMultiButton className={style['wallet-button']}/>
             ))}
