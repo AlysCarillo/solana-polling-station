@@ -15,26 +15,21 @@
 }
 
 .fa-item-add {
+  background-color: $primary-dark;
   margin-right: 20px;
   font-size: 30px;
   width: 60px;
 }
 
 .fa-item-home {
+  background-color: $primary-dark;
   margin-left: 20px;
 }
 
-.wallet-button {
-  background-color: $primary-color !important;
-  height: 42px !important;
-}
-
-.wallet-button:not([disabled]):focus-visible {
-  outline-color: $primary-color !important;
-}
-
-.wallet-button:not([disabled]):hover {
-  background-color: $primary-dark !important;
+.fa-item-add:hover, .fa-item-home:hover {
+  background-color: rgb(40, 146, 63) !important;
+  cursor: pointer;
+  color: rgb(236, 236, 236);
 }
 
 .items-center {
