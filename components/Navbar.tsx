@@ -18,21 +18,6 @@ const Navbar: NextPage = () => {
       <div className={style['items']}>
         <Button
           design={'primary'}
-          className={style['fa-item-add']}
-          icon={'plus'}
-          iconSize='18px'
-          type={'button'}
-          onClick={() => {
-            router.push('/create');
-          }}
-        />
-
-        <span className={style['items-center']}>
-          <WalletMultiButton className={style['wallet-button']} />
-          <WalletDisconnectButton className={style['wallet-button']} />
-        </span>
-        <Button
-          design={'primary'}
           className={style['fa-item-home']}
           icon={'home'}
           iconSize='18px'
@@ -41,6 +26,16 @@ const Navbar: NextPage = () => {
             router.push('/');
           }}
         />
+          <Button
+            design={'primary'}
+            className={style['fa-item-add']}
+            icon={'plus'}
+            iconSize='18px'
+            type={'button'}
+            onClick={() => {
+              router.push('/create');
+            }}
+          />
       </div>
     </div>
   );
