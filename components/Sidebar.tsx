@@ -1,3 +1,9 @@
+import {
+  WalletDisconnectButton,
+  WalletMultiButton,
+} from
+ 
+'@solana/wallet-adapter-react-ui';
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { NextPage } from 'next';
 import { FaRegCopy } from 'react-icons/fa';
@@ -31,31 +37,11 @@ const Sidebar: NextPage<DefaultProps> = (props) => {
   const [airdropButtonLabel, setAirdropButtonLabel] = useState(
     defaultAirdropButtonLabel
   );
+  const { connected } = useWallet();
 
   return (
     <div className={style.sidebar}>
       <div className={style['sidebar-content']}>
-        <Link href={'/'}>
-          <a>
-            <h1 className={`${baseStyle['heading']}`}>BlockPoll</h1>
-          </a>
-        </Link>
-        <h4 className={`${baseStyle['heading']} ${style['heading-text']}`}>
-          <em>Open Source Decentralized Blockchain-based Polling</em>
-        </h4>
-        <Link href={'https://github.com/RijulGulati/blockpoll'}>
-          <a target={'_blank'}>
-            <span className={style['github']}>
-              <Image
-                alt='GitHub'
-                width={'75px'}
-                height={'23px'}
-                src={'/assets/images/github.svg'}
-              ></Image>
-            </span>
-          </a>
-        </Link>
-
         <>
           {publicKey ? (
             <>
@@ -147,10 +133,15 @@ const Sidebar: NextPage<DefaultProps> = (props) => {
         </span>
 
         <div className={style['sidebar-info']}>
-          <hr className={style['sidebar-divider']} />
-          <p>
-            Cluster: <b>Devnet</b>
-          </p>
+        <>
+          <span className={style['items-center']}>
+            {(connected ? (
+              <WalletDisconnectButton className={style['wallet-button']} />
+            ) : (
+              <WalletMultiButton className={style['wallet-button']}/>
+            ))}
+          </span>
+        </>
           <p>
             Program Id:{' '}
             <Link

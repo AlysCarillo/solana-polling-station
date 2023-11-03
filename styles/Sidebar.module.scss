@@ -86,14 +86,6 @@
   font-size: 18px;
 }
 
-.sidebar-github {
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  margin: 0 auto;
-  width: 45%;
-}
-
 .wallet-header {
   display: flex;
   justify-content: space-between;
@@ -105,9 +97,8 @@
   font-size: 14px;
 }
 
-.github {
-  font-weight: bold;
-  color: $primary-color;
-  display: flex;
-  align-items: center;
+.wallet-button {
+  background-color: $primary-color !important;
+  height: 42px !important;
 }
+
