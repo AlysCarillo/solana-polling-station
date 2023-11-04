@@ -48,6 +48,17 @@
   line-height: 20px;
 }
 
+.td-account-id a {
+  font-size: 14px;
+  color: $primary-color;
+  text-decoration: underline;
+  line-height: 20px;
+
+  &:hover {
+    color: #25fa1e; /* Change this to your desired hover color */
+  }
+}
+
 .fa-external-link {
   font-size: 13px;
   margin-left: 4px;
@@ -78,3 +89,8 @@
   font-size: 14px;
   padding: 6px;
 }
+
+.poll-button {
+  -webkit-title-delay: 0ms; /* Make the tooltip appear instantly */
+}
+

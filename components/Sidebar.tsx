@@ -54,7 +54,7 @@ const Sidebar: NextPage<DefaultProps> = (props) => {
                   </h2>
                   <Button
                     design={'primary'}
-                    className={style['airdrop-button']}
+                    className={`${style['airdrop-button']} ${airdropButtonLabel !== defaultAirdropButtonLabel ? style['loading'] : ''}`}
                     label={airdropButtonLabel}
                     labelWithLoader
                     loading={airdropButtonLabel !== defaultAirdropButtonLabel}
@@ -142,22 +142,25 @@ const Sidebar: NextPage<DefaultProps> = (props) => {
             ))}
           </span>
         </>
-          <p>
-            Program Id:{' '}
-            <Link
-              href={`https://explorer.solana.com/address/${getProgramId().toBase58()}?cluster=devnet`}
-            >
-              <a target={'_blank'}>
-                <b>{transformSolanaId(getProgramId().toBase58(), 8)}</b>
-              </a>
-            </Link>
-            <FaRegCopy
-              className={style['sidebar-copy-button']}
-              onClick={async () =>
-                await copyToClipboard(getProgramId().toBase58())
-              }
-            />
-          </p>
+          <td className={`${style.td} ${style['program-id']}`}> 
+            <p>
+              Program Id:{' '}
+              <Link
+                href={`https://explorer.solana.com/address/${getProgramId().toBase58()}?cluster=devnet`}
+              >
+                <a target={'_blank'}>
+                  <b>{transformSolanaId(getProgramId().toBase58(), 8)}</b>
+                </a>
+              </Link>
+              <FaRegCopy
+                className={style['sidebar-copy-button']}
+                onClick={async () =>
+                  await copyToClipboard(getProgramId().toBase58())
+                }
+              />
+            </p>
+          </td>
+          
         </div>
       </div>
     </div>

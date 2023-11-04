@@ -225,7 +225,7 @@ const CreatePoll: NextPage<DefaultProps> = (props) => {
               design={'primary'}
               label={buttonLabel}
               loading={loading}
-              className={style['poll-button']}
+              className={`${style['poll-button']} ${loading ? style['loading'] : ''}`}
               labelWithLoader
             />
           </span>

@@ -130,7 +130,7 @@ const PollVote: NextPage<DefaultProps> = (props) => {
   return (
     <>
       <Head>
-        <title>Cast Vote | BlockPoll</title>
+        <title>Cast Vote</title>
       </Head>
       <div className={BaseStyle['child-content']}>
         <h1 className={`${BaseStyle['heading']} ${BaseStyle['main-heading']}`}>
@@ -176,7 +176,7 @@ const PollVote: NextPage<DefaultProps> = (props) => {
                 <Button
                   design={'primary'}
                   type={'submit'}
-                  className={style['vote-button']}
+                  className={`${style['vote-button']} ${loading ? style['loading'] : ''}`}
                   label={buttonLabel}
                   labelWithLoader
                   loading={loading}

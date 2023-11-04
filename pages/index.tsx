@@ -1,6 +1,7 @@
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { GetServerSideProps, NextPage } from 'next';
 import Link from 'next/link';
+import ReactTooltip from 'react-tooltip';
 import { useState, useEffect, Dispatch, SetStateAction } from 'react';
 import {
   FaExternalLinkAlt,
@@ -169,12 +170,14 @@ const Home: NextPage<DefaultProps> = (props) => {
                               onClick={() => {
                                 router.push(`/poll/${poll.poll.id}`);
                               }}
+                              title="View Poll Results"
                             />
                             <BsFillHandIndexThumbFill
                               onClick={() => {
                                 router.push(`/poll/${poll.poll.id}/vote`);
                               }}
                               className={BaseStyle['fa-button']}
+                              title="Cast Vote"
                             ></BsFillHandIndexThumbFill>
 
                             <FaShareAltSquare
@@ -185,6 +188,7 @@ const Home: NextPage<DefaultProps> = (props) => {
                                 );
                               }}
                               className={BaseStyle['fa-button']}
+                              title="Copy Poll URL"
                             />
                           </div>
                         </td>

@@ -111,22 +111,31 @@ const PollResult: NextPage<DefaultProps> = (props) => {
               options={{
                 aspectRatio: 3,
                 maintainAspectRatio: true,
-                indexAxis: 'y',
+                indexAxis: 'x',
                 responsive: true,
                 plugins: {
                   legend: {
                     display: true,
                     position: 'top',
+                    labels: {
+                      color: 'white', // Set the legend label color
+                    },
                   },
                 },
                 scales: {
-                  linear: {
-                    axis: 'y',
-                    grid: {
-                      display: false,
-                    },
+                  x: {
+                    beginAtZero: true,
                     ticks: {
-                      stepSize: 1,
+                      color: 'white', // Set x-axis label color
+                    },
+                  },
+                  y: {
+                    beginAtZero: true,
+                    ticks: {
+                      color: 'white', // Set y-axis label color
+                    },
+                    grid: {
+                      color: 'white', // Set the y-axis grid line color
                     },
                   },
                 },

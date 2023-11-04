@@ -8,6 +8,35 @@
 
 .poll-button {
   width: 160px;
+  color: $primary-color;
+  background-color: $primary-dark;
+  transition: background-image 0.3s ease-in-out;
+  cursor: pointer;
+  border: none;
+
+  &:hover {
+    background-image: linear-gradient(to right, #14F195, #9945FF);
+    color: rgb(236, 236, 236);
+  }
+
+  &.loading {
+    background-image: linear-gradient(to right, #14F195, #9945FF);
+    color: rgb(236, 236, 236);
+    cursor: not-allowed; /* Optional: Change cursor for loading state */
+  }
+}
+
+.loading {
+  background-image: linear-gradient(to right, #14F195, #9945FF);
+  color: rgb(236, 236, 236);
+  cursor: not-allowed; /* Optional: Change cursor for loading state */
+}
+
+
+.poll-button:hover {
+  background-image: linear-gradient(to right, #14F195, #9945FF) !important;
+  cursor: pointer;
+  color: rgb(236, 236, 236);
 }
 
 .options-label {
