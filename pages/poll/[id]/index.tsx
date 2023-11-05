@@ -11,6 +11,7 @@ import {
   getAccountBalance,
   getPollById,
   getPollsCount,
+  getPollsByOwner,
 } from '../../../utils/solana';
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import {
@@ -34,7 +35,7 @@ const PollResult: NextPage<DefaultProps> = (props) => {
   const [pollUrl, setPollUrl] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const { publicKey } = useWallet();
-  const { setPollCount, setAccountBalance } = props;
+  const { setPollCount, setAccountBalance, setOwnerPollCount } = props;
   const { id } = router.query;
 
   useEffect(() => {
@@ -59,10 +60,22 @@ const PollResult: NextPage<DefaultProps> = (props) => {
   }, [publicKey, refresh, id]);
 
   useEffect(() => {
-    if (setAccountBalance && setPollCount) {
+    if (setAccountBalance && setPollCount && setOwnerPollCount) {
       if (publicKey) {
         getAccountBalance(connection, publicKey).then((bal) => {
           setAccountBalance(bal);
+        });
+
+        getPollsCount(connection, 'anonymous').then((polls) => {
+          setPollCount(polls);
+        });
+
+        getPollsByOwner(connection, publicKey.toBase58())
+        .then((polls) => {
+          setOwnerPollCount(polls.length);
+        })
+        .catch((err) => {
+          console.error('Error fetching polls:', err);
         });
       }
 

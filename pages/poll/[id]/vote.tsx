@@ -1,25 +1,16 @@
+import React, { FormEvent, useEffect, useState } from 'react';
 import { NextPage } from 'next';
-import BaseStyle from '../../../styles/Base.module.scss';
-import style from '../../../styles/PollVote.module.scss';
-
-import { FormEvent, useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { showToaster, TOAST_TYPE } from '../../../utils/common';
 import { PollWithPubkey } from '../../../models/Poll';
-import {
-  castVote,
-  confirmTransaction,
-  getAccountBalance,
-  getPollById,
-  getPollsCount,
-} from '../../../utils/solana';
-import { useRouter } from 'next/router';
+import { getAccountBalance, getPollById, getPollsCount, castVote, confirmTransaction } from '../../../utils/solana';
 import Button from '../../../components/Button';
 import Loader from '../../../components/Loader';
-import { DefaultProps } from '../..';
 import Head from 'next/head';
-
-require('@solana/wallet-adapter-react-ui/styles.css');
+import BaseStyle from '../../../styles/Base.module.scss';
+import style from '../../../styles/PollVote.module.scss';
+import { DefaultProps } from '../..';
 
 const PollVote: NextPage<DefaultProps> = (props) => {
   const [pollExtended, setPollExtended] = useState<PollWithPubkey>();
@@ -31,9 +22,10 @@ const PollVote: NextPage<DefaultProps> = (props) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [pageLoading, setPageLoading] = useState<boolean>(true);
 
-  const { setAccountBalance, setPollCount } = props;
+  const { setAccountBalance, setPollCount, setOwnerPollCount } = props;
 
   const { id } = router.query;
+
   useEffect(() => {
     if (id) {
       let pollId = Array.isArray(id) ? id[0] : id;
@@ -57,10 +49,14 @@ const PollVote: NextPage<DefaultProps> = (props) => {
   }, [id]);
 
   useEffect(() => {
-    if (setAccountBalance && setPollCount) {
+    if (setAccountBalance && setPollCount && setOwnerPollCount) {
       if (publicKey) {
         getAccountBalance(connection, publicKey).then((bal) => {
           setAccountBalance(bal);
+        });
+        getPollsCount(connection, publicKey.toBase58()).then((count) => {
+          setOwnerPollCount(count);
+          setPollCount(count);
         });
       }
 
@@ -102,11 +98,6 @@ const PollVote: NextPage<DefaultProps> = (props) => {
           setButtonLabel('Confirming transaction');
           confirmTransaction(connection, txnId)
             .then((res) => {
-              // setVoteCasted(true);
-              showToaster(
-                'Success! Thank you for casting your vote',
-                TOAST_TYPE.SUCCESS
-              );
               router.push(`/poll/${pollExtended.poll.id}`);
             })
             .catch((err) => {
