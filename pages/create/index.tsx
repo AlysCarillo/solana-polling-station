@@ -10,6 +10,7 @@ import {
   confirmTransaction,
   createPoll,
   getAccountBalance,
+  getPollsByOwner,
   getPollsCount,
 } from '../../utils/solana';
 import Button from '../../components/Button';
@@ -21,7 +22,7 @@ const CreatePoll: NextPage<DefaultProps> = (props) => {
   const router = useRouter();
   const [optionsRowState, setOptionsRowState] = useState<JSX.Element[]>([]);
   const [triggerChange, setTriggerChange] = useState<boolean>(false);
-  const { setAccountBalance, setPollCount, pollCount, accountBalance } = props;
+  const { setAccountBalance, setPollCount, setOwnerPollCount, pollCount, accountBalance, ownerPollCount } = props;
   const [loading, setLoading] = useState<boolean>(false);
   const { connection } = useConnection();
   const { publicKey, sendTransaction } = useWallet();
@@ -97,13 +98,21 @@ const CreatePoll: NextPage<DefaultProps> = (props) => {
   }, []);
 
   useEffect(() => {
-    if (publicKey && setAccountBalance && setPollCount) {
+    if (publicKey && setAccountBalance && setPollCount && setOwnerPollCount) {
       getAccountBalance(connection, publicKey).then((bal) => {
         setAccountBalance(bal);
       });
 
       getPollsCount(connection, 'anonymous').then((count) => {
         setPollCount(count);
+      });
+
+      getPollsByOwner(connection, publicKey.toBase58())
+      .then((polls) => {
+        setOwnerPollCount(polls.length);
+      })
+      .catch((err) => {
+        console.error('Error fetching polls:', err);
       });
     }
   }, [publicKey]);
@@ -183,7 +192,7 @@ const CreatePoll: NextPage<DefaultProps> = (props) => {
   return (
     <>
       <Head>
-        <title>Create Poll | BlockPoll</title>
+        <title>Create Poll</title>
       </Head>
       <div className={BaseStyle['child-content']}>
         <h1 className={`${BaseStyle['heading']} ${style['main-heading']}`}>
