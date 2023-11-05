@@ -7,6 +7,7 @@ export interface PollWithPubkey {
 }
 
 export class Poll {
+  walletPubkey: string = '';
   owner: string = '';
   id: string = '';
   question: string = '';
@@ -16,6 +17,7 @@ export class Poll {
   timestamp: string = '';
 
   constructor(fields?: {
+    walletPubkey: string;
     owner: string;
     id: string;
     question: string;
@@ -25,6 +27,7 @@ export class Poll {
     timestamp: string;
   }) {
     if (fields) {
+      this.walletPubkey = fields.walletPubkey;
       this.owner = fields.owner;
       this.id = fields.id;
       this.question = fields.question;
@@ -42,6 +45,7 @@ export const PollSchema: Schema = new Map([
     {
       kind: 'struct',
       fields: [
+        ['walletPubkey', 'string'], // Include the new property
         ['owner', 'string'],
         ['id', 'string'],
         ['question', 'string'],
@@ -55,6 +59,7 @@ export const PollSchema: Schema = new Map([
 ]);
 
 export class PollInput {
+  walletPubkey: string = '';
   owner: string = '';
   id: string = '';
   question: string = '';
@@ -62,6 +67,7 @@ export class PollInput {
   seedBump: number = 0;
 
   constructor(fields?: {
+    walletPubkey: string;
     owner: string;
     id: string;
     question: string;
@@ -69,6 +75,7 @@ export class PollInput {
     seedBump: number;
   }) {
     if (fields) {
+      this.walletPubkey = fields.walletPubkey;
       this.owner = fields.owner;
       this.id = fields.id;
       this.question = fields.question;

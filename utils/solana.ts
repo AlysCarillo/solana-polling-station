@@ -86,7 +86,7 @@ const getPollById = async (
     filters: [
       {
         memcmp: {
-          offset: 13,
+          offset: 14,
           bytes: base58.encode(searchByIdSerialized),
         },
       },
@@ -203,6 +203,7 @@ const createPoll = async (
     const id = generateId(7);
 
     let poll = new Poll({
+      walletPubkey: walletPubkey.toBase58(), // Convert PublicKey to string
       id: id,
       options: options,
       owner: owner,
@@ -265,7 +266,8 @@ const createPoll = async (
 
     return [txnId, id];
   } catch (err) {
-    throw new Error(`Unable to create poll: ${err}`);
+    console.error('An error occurred while creating poll:', err);
+    throw err; // Rethrow the error for higher-level handling
   }
 };
 
@@ -299,6 +301,31 @@ const convertLamportsToSOL = (lamports: number): number => {
   return sol;
 };
 
+const getAllPolls = async (connection: Connection): Promise<PollWithPubkey[]> => {
+  let allPolls: PollWithPubkey[] = [];
+
+  const programId = getProgramId();
+
+  const accounts = await connection.getParsedProgramAccounts(programId, {
+    commitment: 'confirmed',
+  });
+
+  accounts.forEach((account) => {
+    if (account.account.owner.toBase58() === programId.toBase58()) {
+      try {
+        const poll = deserialize(PollSchema, Poll, account.account.data as Buffer);
+        // Include the account's public key in the PollWithPubkey object
+        allPolls.push({ poll, accountPubkey: account.pubkey });
+      } catch (err) {
+        console.log('Error occurred while deserializing poll data:', err);
+      }
+    }
+  });
+
+  return allPolls;
+};
+
+
 export {
   getPollsByOwner,
   getPollById,
@@ -310,4 +337,5 @@ export {
   getPollsCount,
   requestAirdrop,
   convertLamportsToSOL,
+  getAllPolls
 };
