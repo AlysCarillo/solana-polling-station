@@ -88,7 +88,15 @@
   height: 28px;
   font-size: 14px;
   padding: 6px;
+  color: $primary-color; /* Set the default text color */
+  background-color: $primary-dark; /* Set the default background color */
+
+  &.primary {
+    background-color: $primary-color; /* Set a distinctive background color for the active page number */
+    color: $primary-dark; /* Set a distinctive text color for the active page number */
+  }
 }
+
 
 .poll-button {
   -webkit-title-delay: 0ms; /* Make the tooltip appear instantly */

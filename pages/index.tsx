@@ -23,7 +23,7 @@ import {
   TOAST_TYPE,
   transformQuestion,
 } from '../utils/common';
-import { getAccountBalance, getPollsByOwner } from '../utils/solana';
+import { getAccountBalance, getAllPolls, getPollsByOwner } from '../utils/solana';
 
 import style from '../styles/Home.module.scss';
 import BaseStyle from '../styles/Base.module.scss';
@@ -33,8 +33,10 @@ import Head from 'next/head';
 export interface DefaultProps {
   setAccountBalance?: Dispatch<SetStateAction<number>>;
   setPollCount?: Dispatch<SetStateAction<number>>;
+  setOwnerPollCount?: Dispatch<SetStateAction<number>>;
   pollCount?: number;
   accountBalance?: number;
+  ownerPollCount?: number;
   host?: string;
 }
 
@@ -52,11 +54,11 @@ const Home: NextPage<DefaultProps> = (props) => {
 
   const { connection } = useConnection();
   const { publicKey } = useWallet();
-  const { setPollCount, setAccountBalance } = props;
+  const { setPollCount, setAccountBalance, setOwnerPollCount } = props;
 
   useEffect(() => {
     setLoading(true);
-    getPollsByOwner(connection, 'anonymous')
+    getAllPolls(connection)
       .then((polls) => {
         setPolls(polls);
         setTotalPages(Math.ceil(polls.length / 5));
@@ -72,14 +74,20 @@ const Home: NextPage<DefaultProps> = (props) => {
         setLoading(false);
       });
   }, []);
+  
 
   useEffect(() => {
-    if (setAccountBalance && publicKey) {
+    if (setAccountBalance && publicKey && setOwnerPollCount) {
       getAccountBalance(connection, publicKey).then((bal) => {
         setAccountBalance(bal);
       });
+
+      // Fetch poll count made by the wallet's public key (owner)
+      getPollsByOwner(connection, publicKey.toBase58()).then((polls) => {
+        setOwnerPollCount(polls.length);
+      });
     }
-  }, [publicKey]);
+  }, [publicKey, setAccountBalance, setOwnerPollCount, connection]);
 
   return (
     <>
@@ -114,9 +122,6 @@ const Home: NextPage<DefaultProps> = (props) => {
             <table className={style['main-table']}>
               <thead>
                 <tr>
-                  <th className={`${style.th}`} style={{ width: '5%' }}>
-                    S. No.
-                  </th>
                   <th className={`${style.th}`} style={{ width: '25%' }}>
                     Account Id
                   </th>
@@ -136,7 +141,6 @@ const Home: NextPage<DefaultProps> = (props) => {
                     const snum = (pageNumber - 1) * 5 + i + 1;
                     return (
                       <tr key={'poll-snum-' + snum}>
-                        <td className={style.td}>{snum}</td>
                         <td className={`${style.td} ${style['td-account-id']}`}>
                           <Link
                             href={`https://explorer.solana.com/address/${poll.accountPubkey.toBase58()}?cluster=devnet`}
@@ -211,7 +215,7 @@ const Home: NextPage<DefaultProps> = (props) => {
                   return (
                     <Button
                       onClick={() => setPageNumber(idx + 1)}
-                      design={idx + 1 == pageNumber ? 'primary' : 'secondary'}
+                      design={idx + 1 === pageNumber ? 'primary' : 'secondary'}
                       key={'page-' + idx}
                       label={`${idx + 1}`}
                       className={style['page-number']}
