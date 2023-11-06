@@ -1,6 +1,6 @@
 import '../styles/globals.scss';
 import type { AppProps } from 'next/app';
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { clusterApiUrl } from '@solana/web3.js';
 import {
   LedgerWalletAdapter,
@@ -25,10 +25,11 @@ import Sidebar from '../components/Sidebar';
 import style from '../styles/Base.module.scss';
 import Head from 'next/head';
 
-function MyApp({ Component, pageProps: { ...pageProps } }: AppProps) {
+function MyApp({ Component, pageProps }: AppProps) {
   const network = WalletAdapterNetwork.Devnet;
   const [pollCount, setPollCount] = useState(0);
   const [accountBalance, setAccountBalance] = useState(0);
+  const [ownerPollCount, setOwnerPollCount] = useState(0);
 
   // You can also provide a custom RPC endpoint.
   const endpoint = useMemo(() => clusterApiUrl('devnet'), []);
@@ -59,13 +60,17 @@ function MyApp({ Component, pageProps: { ...pageProps } }: AppProps) {
             <Sidebar
               accountBalance={accountBalance}
               pollCount={pollCount}
+              ownerPollCount={ownerPollCount}
               setAccountBalance={setAccountBalance}
+              setPollCount={setPollCount}
+              setOwnerPollCount={setOwnerPollCount}
             />
             <div className={`${style['main-content']} ${style['content']}`}>
               <div className={style['card']}>
                 <Component
                   setPollCount={setPollCount}
                   setAccountBalance={setAccountBalance}
+                  setOwnerPollCount={setOwnerPollCount}
                   {...pageProps}
                 />
               </div>
