@@ -1,69 +1,57 @@
-# Solana Poll Web Application
+# Solana Polling Station
 
-Solana blockchain-based polling application where users can create polls, cast votes on polls, view poll results and share polls. 
+Solana Polling Station is a decentralized blockchain-based polling web application built on the Solana blockchain. This application allows users to create polls, cast votes, view results, and more, all secured by the Solana blockchain's robust and secure infrastructure.
 
-This is a pure web3 application - meaning there is no intermediate database involved. All of the poll data is stored on blockchain.
-
-## Solana on-chain program (smart contract)
-
-- The program is deployed on Solana `devnet` cluster.
-
-## Wallet integration
-
-Solana Polling Station allows users to connect with multiple wallets - Eg: Solflare, Sollet, Phantom, etc. Users will have to connect their wallet for following operations:
-
-- Create Poll
-- Cast Vote on poll
-
----
-
-## Build and Run
-
-- ## Web application
-
-    Requires [NodeJs](https://nodejs.org/en/).
-
-    ### Install dependencies
-
-    ```sh
-    $ yarn install
-    ```
-
-    ### Start development server
-
-    ```sh
-    $ yarn dev
-    ```
-
-    ### Environment variables
-
-    The application requires following environment variables:
-
-    - `NEXT_PUBLIC_PROGRAM_ID` - Solana on-chain program address.
-
-    Create a new file `.env.local` in application root and add `NEXT_PUBLIC_PROGRAM_ID=<poll_rust_program_address>` to it.
-
-    Eg: `NEXT_PUBLIC_PROGRAM_ID=EoDZ9sR4bW1AE1Qme3UA1Yn1n6SWSDUzeawyYeBzkxbY`
+![image](https://github.com/AlysCarillo/solana-practice/assets/111732588/4d88482d-71ae-4854-8220-9dcbb8fb2700)
 
 
-- ## Rust program
+## Table of Contents
 
-    Requires [Rust](https://www.rust-lang.org/) and [solana-cli](https://docs.solana.com/cli/install-solana-cli-tools) installed.
+- [Overview](#overview)
+- [Features](#features)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
 
-    ### Compile code
+## Overview
 
-    ```sh
-    $ yarn program:build
-    ```
+Solana Polling Station leverages the Solana blockchain to provide a decentralized and secure platform for creating and participating in polls. The application ensures transparency and immutability of poll data while offering a user-friendly interface.
 
-    ### Deploy
+## Features
 
-    ```sh
-    $ yarn program:deploy
-    ```
+- **Create Polls**: Users can create polls with custom questions and multiple-choice options.
+- **Cast Votes**: Participants can cast their votes securely on the Solana blockchain.
+- **View Results**: Access real-time results and analytics for each poll.
+- **Copy Poll URL**: Share poll URLs easily to encourage more participation.
+- **Explore on Solana Explorer**: Direct links to Solana Explorer for detailed blockchain transactions.
 
-    ### Run tests
+## Getting Started
 
-    ```sh
-    $ yarn program:test
-    ```
+### Prerequisites
+
+Before running Solana Polling Station, ensure you have the following:
+
+- Node.js and npm/yarn installed
+- Solana wallet and connection
+
+### Installation
+
+1. **Install dependencies::**
+
+   ```bash
+   cd solana-polling-station
+    npm install
+
+2. **Start the application:**
+    ```bash
+    npm start
+    or
+    yarn dev
+    
+## Usage
+1. Access the application through your web browser.
+2. Connect your Solana wallet to the application.
+3. Explore existing polls, cast votes, and create new polls.
