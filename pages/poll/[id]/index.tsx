@@ -9,11 +9,8 @@ import { MdRefresh } from 'react-icons/md';
 import { useEffect, useState } from 'react';
 import {
   getAccountBalance,
-  getPollById,
-  getPollsCount,
   getPollsByOwner,
   getAllPolls,
-  getPollByAccountPubKey
 } from '../../../utils/solana';
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import {
@@ -43,10 +40,10 @@ const PollResult: NextPage<DefaultProps> = (props) => {
 
   useEffect(() => {
     setLoading(true);
-    //Get all polls from GetAllPolls and store it in array
+    //Get all polls and store it in array
     getAllPolls(connection)
     .then((polls) => {
-      //Iterate through array and find the poll with the same accountPubkey as the one in the url
+      //Iterate through array and find the poll with the same id 
       polls.forEach((poll) => {
         if (poll.poll.id === id) {
           //If found, set the pollExtended to the poll found

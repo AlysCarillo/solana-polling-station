@@ -1,6 +1,6 @@
 import { Schema } from 'borsh';
 
-export class BlockPollInstruction {
+export class PollInstruction {
   action: number = -1;
   data: Uint8Array = new Uint8Array();
   space: number = 0;
@@ -22,7 +22,7 @@ export class BlockPollInstruction {
 
 export const InstructionSchema: Schema = new Map([
   [
-    BlockPollInstruction,
+    PollInstruction,
     {
       kind: 'struct',
       fields: [

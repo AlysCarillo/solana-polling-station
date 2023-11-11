@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { showToaster, TOAST_TYPE } from '../../../utils/common';
 import { PollWithPubkey } from '../../../models/Poll';
-import { getAccountBalance, getPollById, getPollsByOwner, castVote, confirmTransaction, getAllPolls } from '../../../utils/solana';
+import { getAccountBalance, getPollsByOwner, castVote, confirmTransaction, getAllPolls } from '../../../utils/solana';
 import Button from '../../../components/Button';
 import Loader from '../../../components/Loader';
 import Head from 'next/head';

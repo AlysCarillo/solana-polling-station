@@ -6,14 +6,14 @@ import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { NextPage } from 'next';
 import { FaRegCopy } from 'react-icons/fa';
 import { transformSolanaId, copyToClipboard, showToaster, TOAST_TYPE } from '../utils/common';
-import { convertLamportsToSOL, requestAirdrop, confirmTransaction, getProgramId, getAccountBalance } from '../utils/solana';
+import { convertLamportsToSOL, requestAirdrop, confirmTransaction, getProgramId } from '../utils/solana';
 import style from '../styles/Sidebar.module.scss';
 import baseStyle from '../styles/Base.module.scss';
 import Link from 'next/link';
 import { DefaultProps } from '../pages';
 import Button from './Button';
-import { useEffect, useState } from 'react';
-import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js'; // Import PublicKey
+import { useState } from 'react';
+import { LAMPORTS_PER_SOL } from '@solana/web3.js'; // Import PublicKey
 
 const Sidebar: NextPage<DefaultProps> = (props) => {
   const { publicKey } = useWallet();
