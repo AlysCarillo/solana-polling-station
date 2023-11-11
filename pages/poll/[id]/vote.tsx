@@ -47,6 +47,7 @@ const PollVote: NextPage<DefaultProps> = (props) => {
     })
     .finally(() => {
       setLoading(false);
+      setPageLoading(false);
     });
   }, [id]);
 
