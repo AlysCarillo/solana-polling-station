@@ -60,9 +60,11 @@ const Home: NextPage<DefaultProps> = (props) => {
     setLoading(true);
     getAllPolls(connection)
       .then((polls) => {
+        polls.sort((a, b) => parseInt(b.poll.timestamp) - parseInt(a.poll.timestamp));
         setPolls(polls);
         setTotalPages(Math.ceil(polls.length / 5));
         if (setPollCount) {
+          console.log('polls: ', polls);
           setPollCount(polls.length);
         }
       })
@@ -82,12 +84,12 @@ const Home: NextPage<DefaultProps> = (props) => {
         setAccountBalance(bal);
       });
 
-      // Fetch poll count made by the wallet's public key (owner)
       getPollsByOwner(connection, publicKey.toBase58()).then((polls) => {
         setOwnerPollCount(polls.length);
       });
     }
   }, [publicKey, setAccountBalance, setOwnerPollCount, connection]);
+  
 
   return (
     <>
@@ -218,7 +220,7 @@ const Home: NextPage<DefaultProps> = (props) => {
                       design={idx + 1 === pageNumber ? 'primary' : 'secondary'}
                       key={'page-' + idx}
                       label={`${idx + 1}`}
-                      className={style['page-number']}
+                      className={`${style['page-number']} ${idx + 1 === pageNumber ? style['current'] : ''}`}
                     ></Button>
                   );
                 })}

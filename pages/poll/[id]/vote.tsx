@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { showToaster, TOAST_TYPE } from '../../../utils/common';
 import { PollWithPubkey } from '../../../models/Poll';
-import { getAccountBalance, getPollById, getPollsCount, castVote, confirmTransaction } from '../../../utils/solana';
+import { getAccountBalance, getPollById, getPollsByOwner, castVote, confirmTransaction, getAllPolls } from '../../../utils/solana';
 import Button from '../../../components/Button';
 import Loader from '../../../components/Loader';
 import Head from 'next/head';
@@ -27,25 +27,27 @@ const PollVote: NextPage<DefaultProps> = (props) => {
   const { id } = router.query;
 
   useEffect(() => {
-    if (id) {
-      let pollId = Array.isArray(id) ? id[0] : id;
-      getPollById(connection, pollId)
-        .then((poll) => {
-          if (poll) {
-            setPollExtended({
-              poll: poll.poll,
-              accountPubkey: poll.accountPubkey,
-            });
-          }
-        })
-        .catch((err) => {
-          console.log('error fetching poll data for id: ', pollId);
-          showToaster('Error fetching poll data', TOAST_TYPE.ERROR);
-        })
-        .finally(() => {
-          setPageLoading(false);
-        });
-    }
+    setLoading(true);
+    //Get all polls from GetAllPolls and store it in array
+    getAllPolls(connection)
+    .then((polls) => {
+      //Iterate through array and find the poll with the same accountPubkey as the one in the url
+      polls.forEach((poll) => {
+        if (poll.poll.id === id) {
+          //If found, set the pollExtended to the poll found
+          setPollExtended({
+            poll: poll.poll,
+            accountPubkey: poll.accountPubkey,
+          });
+        }
+      });
+    }).catch((err) => {
+      console.log('error fetching poll data for id: ', id);
+      showToaster('Error fetching poll data', TOAST_TYPE.ERROR);
+    })
+    .finally(() => {
+      setLoading(false);
+    });
   }, [id]);
 
   useEffect(() => {
@@ -54,14 +56,17 @@ const PollVote: NextPage<DefaultProps> = (props) => {
         getAccountBalance(connection, publicKey).then((bal) => {
           setAccountBalance(bal);
         });
-        getPollsCount(connection, publicKey.toBase58()).then((count) => {
-          setOwnerPollCount(count);
-          setPollCount(count);
+        getPollsByOwner(connection, publicKey.toBase58())
+        .then((polls) => {
+          setOwnerPollCount(polls.length);
+        })
+        .catch((err) => {
+          console.error('Error fetching polls:', err);
         });
       }
 
-      getPollsCount(connection, 'anonymous').then((count) => {
-        setPollCount(count);
+      getAllPolls(connection).then((polls) => {
+        setPollCount(polls.length);
       });
     }
   }, [publicKey]);

@@ -11,7 +11,7 @@ import {
   createPoll,
   getAccountBalance,
   getPollsByOwner,
-  getPollsCount,
+  getAllPolls,
 } from '../../utils/solana';
 import Button from '../../components/Button';
 import { DefaultProps } from '..';
@@ -103,8 +103,8 @@ const CreatePoll: NextPage<DefaultProps> = (props) => {
         setAccountBalance(bal);
       });
 
-      getPollsCount(connection, 'anonymous').then((count) => {
-        setPollCount(count);
+      getAllPolls(connection).then((polls) => {
+        setPollCount(polls.length);
       });
 
       getPollsByOwner(connection, publicKey.toBase58())

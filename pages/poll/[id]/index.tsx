@@ -12,6 +12,8 @@ import {
   getPollById,
   getPollsCount,
   getPollsByOwner,
+  getAllPolls,
+  getPollByAccountPubKey
 } from '../../../utils/solana';
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import {
@@ -24,10 +26,11 @@ import { useRouter } from 'next/router';
 import { DefaultProps } from '../..';
 import Button from '../../../components/Button';
 import Head from 'next/head';
+import { PublicKey } from '@solana/web3.js';
+import { get } from 'http';
 
 const PollResult: NextPage<DefaultProps> = (props) => {
   const host = props.host ? props.host : '';
-  console.log('poll result - host: ', host);
   const router = useRouter();
   const [refresh, setRefresh] = useState<boolean>(false);
   const [pollExtended, setPollExtended] = useState<PollWithPubkey>();
@@ -39,25 +42,26 @@ const PollResult: NextPage<DefaultProps> = (props) => {
   const { id } = router.query;
 
   useEffect(() => {
-    if (id) {
-      let pollId = Array.isArray(id) ? id[0] : id;
-      setLoading(true);
-      getPollById(connection, pollId)
-        .then((poll) => {
-          if (poll) {
-            setPollExtended(poll);
-            setPollUrl(`${host}/poll/${poll.poll.id}/vote`);
-          }
-        })
-        .catch((err) => {
-          showToaster('An error occured fetching poll data!', TOAST_TYPE.ERROR);
-          console.log('An error occured fetching poll data: ', err);
-        })
-        .finally(() => {
+    setLoading(true);
+    //Get all polls from GetAllPolls and store it in array
+    getAllPolls(connection)
+    .then((polls) => {
+      //Iterate through array and find the poll with the same accountPubkey as the one in the url
+      polls.forEach((poll) => {
+        if (poll.poll.id === id) {
+          //If found, set the pollExtended to the poll found
+          setPollExtended(poll);
+          //Set the pollUrl to the url of the poll
+          setPollUrl(`${host}/poll/${id}/vote`);
+          //Set loading to false
           setLoading(false);
-        });
-    }
-  }, [publicKey, refresh, id]);
+        }
+      });
+      setLoading(false);
+    }).finally(() => {
+      setLoading(false);
+    });
+  }, [publicKey, refresh]);
 
   useEffect(() => {
     if (setAccountBalance && setPollCount && setOwnerPollCount) {
@@ -66,8 +70,8 @@ const PollResult: NextPage<DefaultProps> = (props) => {
           setAccountBalance(bal);
         });
 
-        getPollsCount(connection, 'anonymous').then((polls) => {
-          setPollCount(polls);
+        getAllPolls(connection).then((polls) => {
+          setPollCount(polls.length);
         });
 
         getPollsByOwner(connection, publicKey.toBase58())
@@ -79,8 +83,8 @@ const PollResult: NextPage<DefaultProps> = (props) => {
         });
       }
 
-      getPollsCount(connection, 'anonymous').then((count) => {
-        setPollCount(count);
+      getAllPolls(connection).then((polls) => {
+        setPollCount(polls.length);
       });
     }
   }, [publicKey, refresh, id]);
@@ -89,7 +93,7 @@ const PollResult: NextPage<DefaultProps> = (props) => {
   return (
     <>
       <Head>
-        <title>Poll Results | BlockPoll</title>
+        <title>Poll Results</title>
       </Head>
       <div className={BaseStyle['child-content']}>
         <h1
@@ -105,7 +109,7 @@ const PollResult: NextPage<DefaultProps> = (props) => {
             />
           </span>
         </h1>
-
+  
         {loading ? (
           <Loader />
         ) : !pollExtended?.poll.question ? (
@@ -115,12 +119,12 @@ const PollResult: NextPage<DefaultProps> = (props) => {
         ) : (
           <div className={style['results']}>
             <h2 className={style['question']}>
-              Q) {pollExtended.poll.question}{' '}
+              Q) {pollExtended!.poll.question}{' '}
             </h2>
-
+  
             <Bar
               className={style['poll-chart']}
-              data={getGraphData(pollExtended.poll)}
+              data={getGraphData(pollExtended!.poll)}
               options={{
                 aspectRatio: 3,
                 maintainAspectRatio: true,
@@ -175,8 +179,7 @@ const PollResult: NextPage<DefaultProps> = (props) => {
       </div>
     </>
   );
-};
-
+}  
 const getGraphData = (poll: Poll) => {
   const data = {
     labels: poll.options,

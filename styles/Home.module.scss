@@ -88,13 +88,18 @@
   height: 28px;
   font-size: 14px;
   padding: 6px;
-  color: $primary-color; /* Set the default text color */
-  background-color: $primary-dark; /* Set the default background color */
+  color: $primary-color; 
+  background-color: transparent; 
 
   &.primary {
-    background-color: $primary-color; /* Set a distinctive background color for the active page number */
-    color: $primary-dark; /* Set a distinctive text color for the active page number */
+    background-color: $primary-color; 
+    color: $primary-dark; 
   }
+}
+
+.current {
+  background-image: linear-gradient(to right, #14F195, #9945FF) !important;
+  color: rgb(236, 236, 236); 
 }
 
 
