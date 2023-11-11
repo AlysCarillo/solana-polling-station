@@ -7,7 +7,7 @@ import {
   Transaction,
   TransactionInstruction,
 } from '@solana/web3.js';
-import { deserialize, serialize } from 'borsh';
+import { deserialize, serialize, deserializeUnchecked  } from 'borsh';
 import base58 from 'bs58';
 import { BlockPollInstruction, InstructionSchema } from '../models/Instruction';
 import {
@@ -24,6 +24,7 @@ import {
   SearchByOwnerSchema,
 } from '../models/Search';
 import { generateId } from './common';
+import protobufjs from 'protobufjs';
 
 const PROGRAM_ID = process.env.NEXT_PUBLIC_PROGRAM_ID
   ? process.env.NEXT_PUBLIC_PROGRAM_ID
@@ -79,33 +80,60 @@ const getPollById = async (
 ): Promise<PollWithPubkey | null> => {
   let programId = getProgramId();
 
-  let SBI = new SearchById({ id: id });
-  let searchByIdSerialized = serialize(SearchByIdSchema, SBI);
+  try {
+    const pollPubkey = new PublicKey(id);
+
+    const account = await connection.getAccountInfo(pollPubkey, 'confirmed');
+
+    if (account && account.owner.toBase58() === programId.toBase58()) {
+      const poll = deserialize(PollSchema, Poll, account.data as Buffer);
+      const pollExtended: PollWithPubkey = {
+        accountPubkey: pollPubkey,
+        poll: poll,
+      };
+      return pollExtended;
+    }
+
+    return null;
+  } catch (error) {
+    console.error('Error fetching poll by id:', error);
+    return null;
+  }
+};
+
+const getPollByAccountPubKey = async (
+  connection: Connection,
+  accountPubKey: PublicKey
+): Promise<PollWithPubkey | undefined> => {
+  const programId = getProgramId();
 
   const accounts = await connection.getParsedProgramAccounts(programId, {
-    filters: [
-      {
-        memcmp: {
-          offset: 14,
-          bytes: base58.encode(searchByIdSerialized),
-        },
-      },
-    ],
     commitment: 'confirmed',
   });
 
-  if (accounts.length > 0) {
-    let account = accounts[0];
-    let poll = deserialize(PollSchema, Poll, account.account.data as Buffer);
-    let pollExtended: PollWithPubkey = {
-      accountPubkey: account.pubkey,
-      poll: poll,
-    };
-    return pollExtended;
+  const matchingAccount = accounts.find(
+    (account) =>
+      account.account.owner.toBase58() === programId.toBase58() &&
+      account.pubkey.equals(accountPubKey)
+  );
+
+  if (matchingAccount) {
+    try {
+      const poll = deserialize(
+        PollSchema,
+        Poll,
+        matchingAccount.account.data as Buffer
+      );
+
+      return { poll, accountPubkey: matchingAccount.pubkey };
+    } catch (err) {
+      console.log('Error occurred while deserializing poll data:', err);
+    }
   }
 
-  return null;
+  return undefined; // Return undefined if the poll is not found
 };
+
 
 const getPollsCount = async (
   connection: Connection,
@@ -313,9 +341,8 @@ const getAllPolls = async (connection: Connection): Promise<PollWithPubkey[]> =>
   accounts.forEach((account) => {
     if (account.account.owner.toBase58() === programId.toBase58()) {
       try {
-        const poll = deserialize(PollSchema, Poll, account.account.data as Buffer);
-        // Include the account's public key in the PollWithPubkey object
-        allPolls.push({ poll, accountPubkey: account.pubkey });
+        let poll = deserialize(PollSchema, Poll, account.account.data as Buffer)
+        allPolls.push({ poll: poll, accountPubkey: account.pubkey });
       } catch (err) {
         console.log('Error occurred while deserializing poll data:', err);
       }
@@ -324,7 +351,6 @@ const getAllPolls = async (connection: Connection): Promise<PollWithPubkey[]> =>
 
   return allPolls;
 };
-
 
 export {
   getPollsByOwner,
@@ -337,5 +363,6 @@ export {
   getPollsCount,
   requestAirdrop,
   convertLamportsToSOL,
-  getAllPolls
+  getAllPolls,
+  getPollByAccountPubKey
 };
