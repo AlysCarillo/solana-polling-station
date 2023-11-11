@@ -10,7 +10,7 @@ This is a pure web3 application - meaning there is no intermediate database invo
 
 ## Wallet integration
 
-BlockPoll allows users to connect with multiple wallets - Eg: Solflare, Sollet, Phantom, etc. Users will have to connect their wallet for following operations:
+Solana Polling Station allows users to connect with multiple wallets - Eg: Solflare, Sollet, Phantom, etc. Users will have to connect their wallet for following operations:
 
 - Create Poll
 - Cast Vote on poll
@@ -39,9 +39,9 @@ BlockPoll allows users to connect with multiple wallets - Eg: Solflare, Sollet, 
 
     The application requires following environment variables:
 
-    - `NEXT_PUBLIC_PROGRAM_ID` - BlockPoll on-chain program address.
+    - `NEXT_PUBLIC_PROGRAM_ID` - Solana on-chain program address.
 
-    Create a new file `.env.local` in application root and add `NEXT_PUBLIC_PROGRAM_ID=<blockpoll_program_address>` to it.
+    Create a new file `.env.local` in application root and add `NEXT_PUBLIC_PROGRAM_ID=<poll_rust_program_address>` to it.
 
     Eg: `NEXT_PUBLIC_PROGRAM_ID=EoDZ9sR4bW1AE1Qme3UA1Yn1n6SWSDUzeawyYeBzkxbY`
 

@@ -1,5 +1,5 @@
 {
-  "name": "blockpoll-web",
+  "name": "solana-poll-web",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,7 +9,7 @@
     "lint": "next lint",
     "program:build": "cargo build-bpf --manifest-path=program-rust/Cargo.toml --bpf-out-dir=program-rust/dist/program",
     "program:test": "cargo test --manifest-path=program-rust/Cargo.toml",
-    "program:deploy": "solana program deploy program-rust/dist/program/blockpoll.so"
+    "program:deploy": "solana program deploy program-rust/dist/program/pollsolana.so"
   },
   "dependencies": {
     "@solana/buffer-layout": "^4.0.0",
