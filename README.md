@@ -13,9 +13,7 @@ Solana Polling Station is a decentralized blockchain-based polling web applicati
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
 - [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
-
+  
 ## Overview
 
 Solana Polling Station leverages the Solana blockchain to provide a decentralized and secure platform for creating and participating in polls. The application ensures transparency and immutability of poll data while offering a user-friendly interface.
